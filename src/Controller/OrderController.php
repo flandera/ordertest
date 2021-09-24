@@ -76,7 +76,7 @@ class OrderController extends AbstractController
         }
     }
 
-    protected function validateSaveRequest(Request $request)
+    public function validateSaveRequest(Request $request): ?bool
     {
         $constraints = new Collection([
             'orderId' => (new Required(new NotBlank())),
