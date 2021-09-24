@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "bf37bb3f-c636-4b63-82df-16264e0474c3",
+		"name": "Ordertest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "saveOrder",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"orderId\": \"test1\",\r\n\t\"partnerId\": \"neco neco\",\r\n\t\"deliveryDate\": \"15.08.2021\",\r\n    \"orderTotal\": 36.8\r\n\t\"products\": [{\r\n\t\t\"name\": \"pohovka\",\r\n\t\t\"price\": 28.65,\r\n\t\t\"pieces\": 2\r\n\t}]\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8087/order/create",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"order",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8087/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
