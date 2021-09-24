@@ -5,6 +5,9 @@ namespace App\Entity;
 
 use App\Repository\OrderProductsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Column;
 
 /**
  * @ORM\Entity(repositoryClass=OrderProductsRepository::class)
@@ -18,7 +21,7 @@ class OrderProduct
      */
     private int $id;
 
-    /** @Id @ManyToOne(targetEntity="Order", inversedBy="products") */
+    /** @ManyToOne(targetEntity="Order", inversedBy="products") */
     private Order $order;
 
     /**

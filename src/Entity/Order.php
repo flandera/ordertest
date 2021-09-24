@@ -7,17 +7,31 @@ use App\Repository\OrderRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Column;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=OrderRepository::class)
+ * @UniqueEntity(
+ *     fields={"orderId", "partnerId"},
+ *     errorPath="orderId",
+ *     message="This orderId is already in use on that partnerId."
+ * )
  * @ORM\Table(name="`order`")
  */
 class Order
 {
-    /** @Id @Column(type="string") */
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private string $id;
+
+    /** @Column(type="string") */
     private string $orderId;
 
-    /** @Id @Column(type="string") */
+    /** @Column(type="string") */
     private string $partnerId;
 
     /**
