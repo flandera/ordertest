@@ -47,4 +47,15 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getAllWithOrders()
+    {
+//        $orders = $this->getEntityManager()->getRepository(Order::class)->findAll();
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT o, p
+                    FROM App\Entity\Order o
+                    LEFT JOIN o.products p"
+        );
+//        $query->execute();
+        return $query->getResult();
+    }
 }

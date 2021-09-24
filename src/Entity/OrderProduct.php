@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\Column;
 /**
  * @ORM\Entity(repositoryClass=OrderProductsRepository::class)
  */
-class OrderProduct
+class OrderProduct implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -21,7 +21,7 @@ class OrderProduct
      */
     private int $id;
 
-    /** @ManyToOne(targetEntity="Order", inversedBy="products") */
+    /** @ManyToOne(targetEntity="Order", inversedBy="products", fetch="EAGER") */
     private Order $order;
 
     /**
@@ -90,4 +90,10 @@ class OrderProduct
         $this->order = $order;
         return $this;
     }
+
+    public function jsonSerialize()
+    {
+        return (object) get_object_vars($this);
+    }
+
 }

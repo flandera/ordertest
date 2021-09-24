@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
@@ -19,14 +20,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * )
  * @ORM\Table(name="`order`")
  */
-class Order
+class Order implements \JsonSerializable
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private string $id;
+    private int $id;
 
     /** @Column(type="string") */
     private string $orderId;
@@ -45,13 +46,17 @@ class Order
     private float $orderTotal;
 
     /**
-     * @OneToMany(targetEntity="OrderProduct", mappedBy="order", cascade={"ALL"}, indexBy="products")
+     * @OneToMany(targetEntity="OrderProduct", mappedBy="order", cascade={"ALL"}, indexBy="products", fetch="EAGER")
      */
-    private array $products;
+    private $products;
 
-    public function addProduct($name, $value): array
+    /**
+     * @param OrderProduct $product
+     * @return Collection
+     */
+    public function addProduct(OrderProduct $product): Collection
     {
-        $this->products[$name] = new OrderProduct($name, $value, $this);
+        $this->products[] =  $product;
         return $this->products;
     }
 
@@ -97,6 +102,32 @@ class Order
     {
         $this->orderTotal = $orderTotal;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function jsonSerialize()
+    {
+        return (object) get_object_vars($this);
+    }
+
+    public function setProducts(array $products)
+    {
+        $this->products = $products;
     }
 
 }
