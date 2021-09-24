@@ -1,0 +1,27 @@
+version: '3.6'
+services:
+  foods:
+    image: webdevops/php-apache-dev:8.0
+    working_dir: /var/www
+    environment: ['WEB_DOCUMENT_ROOT=/var/www/public', 'DOCUMENT_ROOT=/var/www/public/', 'WEB_DOCUMENT_INDEX=/var/www/public/index.php', 'PHP_IDE_CONFIG=serverName=ordertest', 'PHP_DEBUGGER=xdebug', 'XDEBUG_MODE=debug', 'XDEBUG_START_WITH_REQUEST=yes','XDEBUG_CLIENT_HOST=host.docker.internal', 'PM_MAX_REQUESTS=500', 'PHP_MEMORY_LIMIT=2G']
+    container_name: ordertest
+    shm_size: 2g
+    volumes:
+      - .:/var/www
+    ports:
+      - '8087:80'
+    networks:
+      - ordertest
+
+  db:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+    ports:
+      - "3306:3306"
+    networks:
+      - ordertest
+
+networks:
+  ordertest:
+    external: true
